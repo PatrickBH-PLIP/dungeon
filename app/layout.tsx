@@ -1,10 +1,15 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { Cinzel, Inter } from 'next/font/google'
 import './globals.css'
 
+const _cinzel = Cinzel({ subsets: ['latin'], weight: ['400', '600', '700', '900'] })
+const _inter = Inter({ subsets: ['latin'] })
+
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'Cripta dos Números | Jogo de Matemática',
+  description:
+    'Desça os andares da Cripta dos Números resolvendo contas de soma, subtração, multiplicação e divisão. Suba de nível, ganhe moedas e compre melhorias na loja do Mercador.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -26,11 +31,9 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  colorScheme: 'dark',
+  themeColor: '#1a1512',
+  userScalable: false,
 }
 
 export default function RootLayout({
@@ -39,8 +42,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className="antialiased">
+    <html lang="pt-BR" className="bg-background">
+      <body className="font-sans antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
