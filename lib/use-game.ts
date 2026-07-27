@@ -29,7 +29,6 @@ export type SaveData = {
   deepestFloor: number
   totalCorrect: number
   totalWrong: number
-  bossLevels: Record<number, number>
 }
 
 const DEFAULT_SAVE: SaveData = {
@@ -39,7 +38,6 @@ const DEFAULT_SAVE: SaveData = {
   deepestFloor: 0,
   totalCorrect: 0,
   totalWrong: 0,
-  bossLevels: {},
 }
 
 export type Toast = { id: number; text: string; tone: 'good' | 'bad' | 'info' }
@@ -129,14 +127,12 @@ export function useGame() {
   const startBattle = useCallback(
     (index: number) => {
       const floor = getFloor(index)
-      const bossLevel = save.bossLevels[index] ?? 0
-      const extraHp = bossLevel * 2
       const timeMax = floor.timePerQuestion + stats.timeBonus
       committedRef.current = false
       setBattle({
         floor,
-       monsterHpMax: floor.hits + extraHp,
-        monsterHp: floor.hits + extraHp,
+        monsterHpMax: floor.hits,
+        monsterHp: floor.hits,
         lives: stats.maxLives,
         maxLives: stats.maxLives,
         question: generateQuestion(index, floor.ops),
@@ -208,10 +204,7 @@ export function useGame() {
         }
 
         const blocked = Math.random() < stats.blockChance
-        let const bossLevel = save.bossLevels[b.floor.index] ?? 0
-        const damage = b.floor.damage + bossLevel
-
-        lives = blocked ? b.lives : Math.max(0, b.lives - damage)
+        let lives = blocked ? b.lives : Math.max(0, b.lives - b.floor.damage)
         let revivesLeft = b.revivesLeft
         if (lives <= 0 && revivesLeft > 0) {
           revivesLeft -= 1
@@ -275,7 +268,7 @@ export function useGame() {
     const won = battle.phase === 'won'
     setSave((s) => ({
       ...s,
-      coins: won ? s.coins + battle.coins : s.coins,
+      coins: s.coins + battle.coins,
       totalCorrect: s.totalCorrect + battle.correct,
       totalWrong: s.totalWrong + battle.wrong,
       unlockedFloor: won ? Math.max(s.unlockedFloor, battle.floor.index + 1) : s.unlockedFloor,
