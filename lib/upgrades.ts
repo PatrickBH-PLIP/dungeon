@@ -30,8 +30,8 @@ export const UPGRADES: Upgrade[] = [
     icon: 'hourglass',
     description: 'Areia encantada estica cada segundo dentro da Cripta.',
     maxLevel: 8,
-    baseCost: 380,
-    growth: 2,
+    baseCost: 420,
+    growth: 2.1,
     effect: (l) => `+${(l * 1.5).toFixed(1)}s por conta`,
   },
   {
@@ -41,8 +41,8 @@ export const UPGRADES: Upgrade[] = [
     icon: 'heart',
     description: 'Um fragmento do Golem batendo no seu peito. Aguenta mais golpes.',
     maxLevel: 6,
-    baseCost: 320,
-    growth: 2,
+    baseCost: 380,
+    growth: 2.1,
     effect: (l) => `+${l} ponto${l > 1 ? 's' : ''} de vida máxima`,
   },
   {
@@ -53,7 +53,7 @@ export const UPGRADES: Upgrade[] = [
     description: 'Selo de proteção que às vezes anula o dano de uma resposta errada.',
     maxLevel: 5,
     baseCost: 360,
-    growth: 2,
+    growth: 2.1,
     effect: (l) => `${l * 9}% de chance de bloquear dano`,
   },
   {
@@ -64,7 +64,7 @@ export const UPGRADES: Upgrade[] = [
     description: 'Acertos podem virar golpes críticos: dano dobrado e moedas extras.',
     maxLevel: 5,
     baseCost: 330,
-    growth: 2,
+    growth: 2.1,
     effect: (l) => `${l * 7}% de chance de crítico`,
   },
   {
@@ -75,7 +75,7 @@ export const UPGRADES: Upgrade[] = [
     description: 'Costurada com fios de ouro: cada acerto rende mais moedas.',
     maxLevel: 5,
     baseCost: 280,
-    growth: 2,
+    growth: 2.1,
     effect: (l) => `+${l * 18}% de moedas`,
   },
   {
@@ -86,7 +86,7 @@ export const UPGRADES: Upgrade[] = [
     description: 'Habilidade [Q]: congela o cronômetro por 6 segundos.',
     maxLevel: 3,
     baseCost: 350,
-    growth: 2,
+    growth: 2.1,
     effect: (l) => `${l} uso${l > 1 ? 's' : ''} por andar`,
   },
   {
@@ -97,7 +97,7 @@ export const UPGRADES: Upgrade[] = [
     description: 'Habilidade [W]: revela pistas sobre a resposta da conta atual.',
     maxLevel: 3,
     baseCost: 340,
-    growth: 2,
+    growth: 2.1,
     effect: (l) => `${l} uso${l > 1 ? 's' : ''} por andar`,
   },
   {
