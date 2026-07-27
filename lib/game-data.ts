@@ -198,9 +198,9 @@ export function getFloor(index: number): Floor {
     monsterImage: base.monsterImage,
     isBoss,
     ops: base.ops,
-    hits: clamp(5 + Math.floor(depth / 2), 5, 12) + (isBoss ? 25 : 0),
+    hits: clamp(5 + Math.floor(depth / 2), 5, 12) + (isBoss ? 3 : 0),
     timePerQuestion: clamp(14 - Math.floor(depth / 2), 6, 14) - (isBoss ? 1 : 0),
-    damage: isBoss ? 5 : 1,
+    damage: isBoss ? 2 : 1,
     coinsPerHit: 4 + depth * 2 + (isEndless ? 6 : 0),
   }
 }
