@@ -25,6 +25,7 @@ export function GameShell() {
     <>
       <DungeonBackdrop />
 
+      <div className="relative z-10">
       {game.screen === 'menu' ? (
         <TitleScreen
           save={game.save}
@@ -86,6 +87,7 @@ export function GameShell() {
           onMenu={() => game.setScreen('menu')}
         />
       ) : null}
+      </div>
     </>
   )
 }

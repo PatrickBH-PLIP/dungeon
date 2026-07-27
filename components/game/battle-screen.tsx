@@ -139,14 +139,26 @@ export function BattleScreen({
             ))}
           </div>
 
-          <div className="flex flex-1 items-center justify-center">
+          <div className="relative flex flex-1 items-center justify-center">
+            <div
+              className="pointer-events-none absolute size-72 rounded-full blur-2xl"
+              style={{
+                background:
+                  'radial-gradient(circle, color-mix(in oklab, var(--primary) 22%, transparent), transparent 70%)',
+              }}
+              aria-hidden="true"
+            />
             <img
               key={battle.shakeAt}
               src={floor.monsterImage || '/placeholder.svg'}
               alt={floor.monsterName}
-              className={`max-h-72 w-auto object-contain drop-shadow-[0_18px_28px_oklch(0_0_0/0.7)] ${
+              className={`relative max-h-72 w-auto object-contain ${
                 phase === 'wrong' || phase === 'lost' ? 'animate-hit' : 'animate-float'
               }`}
+              style={{
+                maskImage: 'radial-gradient(closest-side, oklch(0 0 0) 62%, transparent 96%)',
+                WebkitMaskImage: 'radial-gradient(closest-side, oklch(0 0 0) 62%, transparent 96%)',
+              }}
             />
           </div>
 
