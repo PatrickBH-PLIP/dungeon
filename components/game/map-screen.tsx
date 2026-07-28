@@ -14,15 +14,8 @@ type Props = {
 }
 
 export function MapScreen({ save, onSelect, onBack, onShop }: Props) {
-  const chapter1Floors = Array.from(
-    { length: 18 },
-    (_, i) => getFloor(i + 1)
-)
-
-const chapter2Floors = Array.from(
-  { length: 18 },
-  (_, i) => getFloor(i + 19)
-)
+  const totalShown = Math.max(TOTAL_FIXED_FLOORS, save.unlockedFloor + 1)
+  const floors = Array.from({ length: totalShown }, (_, i) => getFloor(i + 1))
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-5 px-4 py-8">
@@ -47,12 +40,8 @@ const chapter2Floors = Array.from(
         </div>
       </header>
 
-      <h2 className="font-serif text-xl font-bold mt-4">
-        🏰 Capítulo 1 — Cripta dos Números
-      </h2>
-
       <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {chapter1Floors.map((floor) => {
+        {floors.map((floor) => {
           const unlocked = floor.index <= save.unlockedFloor
           const cleared = floor.index <= save.deepestFloor
           return (
@@ -93,61 +82,6 @@ const chapter2Floors = Array.from(
           )
         })}
       </ul>
-      <h2 className="font-serif text-xl font-bold mt-8">
-        🕰️ Capítulo 2 — Torre do Relógio Partido
-      </h2>
-
-<ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-  {chapter2Floors.map((floor) => {
-    const unlocked =
-      save.chapter2Unlocked &&
-      floor.index <= save.unlockedFloor
-    const cleared = floor.index <= save.deepestFloor
-
-    return (
-      <li key={floor.index}>
-        <button
-          type="button"
-          disabled={!unlocked}
-          onClick={() => onSelect(floor.index)}
-          className={`flex w-full flex-col gap-2 rounded-xl border p-4 text-left transition-colors ${
-            unlocked
-              ? 'border-border stone-frame hover:border-primary/60'
-              : 'cursor-not-allowed border-border/60 bg-card/40 opacity-60'
-          }`}
-        >
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
-              {floor.subtitle}
-            </span>
-
-            {!unlocked ? (
-              <Lock className="size-4 text-muted-foreground" />
-            ) : cleared ? (
-              <Crown className="size-4 text-primary" />
-            ) : floor.isBoss ? (
-              <Skull className="size-4 text-accent" />
-            ) : null}
-          </div>
-
-          <span className="font-serif text-lg font-bold leading-tight">
-            {floor.name}
-          </span>
-
-          <span className="text-sm text-muted-foreground">
-            {floor.monsterName} · {floor.ops.join(' ')} · {floor.timePerQuestion}s base
-          </span>
-
-          {!unlocked ? (
-            <span className="text-xs text-muted-foreground">
-              Vença a Cripta para abrir a Torre.
-            </span>
-          ) : null}
-        </button>
-      </li>
-    )
-  })}
-</ul>
     </main>
   )
 }

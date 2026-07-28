@@ -3,8 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   generateQuestion,
-  generateChapter2Question,
-  generateEquationQuestion,
   getFloor,
   oracleHint,
   type Floor,
@@ -29,7 +27,6 @@ export type SaveData = {
   upgrades: UpgradeLevels
   unlockedFloor: number
   deepestFloor: number
-  chapter2Unlocked: boolean
   totalCorrect: number
   totalWrong: number
 }
@@ -39,7 +36,6 @@ const DEFAULT_SAVE: SaveData = {
   upgrades: { ...EMPTY_UPGRADES },
   unlockedFloor: 1,
   deepestFloor: 0,
-  chapter2Unlocked: false,
   totalCorrect: 0,
   totalWrong: 0,
 }
@@ -97,7 +93,6 @@ export function useGame() {
           ...DEFAULT_SAVE,
           ...parsed,
           upgrades: { ...EMPTY_UPGRADES, ...parsed.upgrades },
-          chapter2Unlocked: parsed.chapter2Unlocked ?? false,
         })
       }
     } catch {
@@ -140,12 +135,7 @@ export function useGame() {
         monsterHp: floor.hits,
         lives: stats.maxLives,
         maxLives: stats.maxLives,
-        question:
-          floor.isBoss && index >= 19
-            ? generateEquationQuestion(index)
-            : index <= 18
-              ? generateQuestion(index, floor.ops)
-              : generateChapter2Question(index),
+        question: generateQuestion(index, floor.ops),
         timeMax,
         timeLeft: timeMax,
         input: '',
@@ -259,12 +249,10 @@ export function useGame() {
         if (!b || (b.phase !== 'correct' && b.phase !== 'wrong')) return b
         return {
           ...b,
-          question:
-            b.floor.isBoss && b.floor.index >= 19
-              ? generateEquationQuestion(b.floor.index, b.question.key)
-              : b.floor.index >= 19
-                 ? generateChapter2Question(b.floor.index, b.question.key)
-                 : generateQuestion(b.floor.index, b.floor.ops, b.question.key),
+          question: generateQuestion(b.floor.index, b.floor.ops, b.question.key),
+          timeLeft: b.timeMax,
+          phase: 'asking',
+          lastAnswer: null,
         }
       })
     }, delay)
@@ -273,49 +261,22 @@ export function useGame() {
 
   /* ---------- fim do andar ---------- */
   useEffect(() => {
-  if (!battle) return
-  if (battle.phase !== 'won' && battle.phase !== 'lost') return
-  if (committedRef.current) return
-
-  committedRef.current = true
-
-  const won = battle.phase === 'won'
-
-  setSave((s) => ({
-    ...s,
-
-    coins: s.coins + (won ? battle.coins : 0),
-
-    totalCorrect: s.totalCorrect + battle.correct,
-
-    totalWrong: s.totalWrong + battle.wrong,
-
-    unlockedFloor: won
-      ? Math.max(
-          s.unlockedFloor,
-          battle.floor.index + 1
-        )
-      : s.unlockedFloor,
-
-    deepestFloor: won
-      ? Math.max(
-          s.deepestFloor,
-          battle.floor.index
-        )
-      : s.deepestFloor,
-
-    // DESBLOQUEIA CAPÍTULO 2 AO DERROTAR O ANDAR 18
-    chapter2Unlocked:
-      won && battle.floor.index === 18
-        ? true
-        : s.chapter2Unlocked,
-  }))
-
-  const id = setTimeout(() => setScreen('result'), 900)
-
-  return () => clearTimeout(id)
-
-}, [battle?.phase, battle])
+    if (!battle) return
+    if (battle.phase !== 'won' && battle.phase !== 'lost') return
+    if (committedRef.current) return
+    committedRef.current = true
+    const won = battle.phase === 'won'
+    setSave((s) => ({
+      ...s,
+      coins: s.coins + (won ? battle.coins : 0),
+      totalCorrect: s.totalCorrect + battle.correct,
+      totalWrong: s.totalWrong + battle.wrong,
+      unlockedFloor: won ? Math.max(s.unlockedFloor, battle.floor.index + 1) : s.unlockedFloor,
+      deepestFloor: won ? Math.max(s.deepestFloor, battle.floor.index) : s.deepestFloor,
+    }))
+    const id = setTimeout(() => setScreen('result'), 900)
+    return () => clearTimeout(id)
+  }, [battle?.phase, battle])
 
   /* ---------- entrada numérica ---------- */
   const typeDigit = useCallback((d: string) => {
@@ -379,21 +340,18 @@ export function useGame() {
 
   const flee = useCallback(() => {
     const b = battleRef.current
-
     if (b && !committedRef.current) {
       committedRef.current = true
-
       setSave((s) => ({
-      ...s,
-      coins: s.coins + b.coins,
-      totalCorrect: s.totalCorrect + b.correct,
-      totalWrong: s.totalWrong + b.wrong,
-    }))
-  }
-
-  setBattle(null)
-  setScreen('menu')
-}, [])
+        ...s,
+        coins: s.coins + b.coins,
+        totalCorrect: s.totalCorrect + b.correct,
+        totalWrong: s.totalWrong + b.wrong,
+      }))
+    }
+    setBattle(null)
+    setScreen('menu')
+  }, [])
 
   const resetSave = useCallback(() => {
     setSave({ ...DEFAULT_SAVE, upgrades: { ...EMPTY_UPGRADES } })
