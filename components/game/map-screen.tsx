@@ -14,7 +14,7 @@ type Props = {
 }
 
 export function MapScreen({ save, onSelect, onBack, onShop }: Props) {
-  const totalShown = Math.max(12, save.unlockedFloor + 1)
+  const totalShown = Math.max(18, save.unlockedFloor + 1)
   const floors = Array.from({ length: totalShown }, (_, i) => getFloor(i + 1))
 
   return (
