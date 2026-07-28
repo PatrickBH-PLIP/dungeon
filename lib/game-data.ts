@@ -32,6 +32,12 @@ const LICH = '/images/monster-lich.png'
 const DRAGON = '/images/monster-dragon.png'
 const OGRE = '/images/monster-ogre.png'
 const SHADOW_SPIDER = '/images/monster-shadow-spider.png'
+const PENDULUM_GUARD = '/images/monster-pendulum-guard.png'
+const CLOCK_MONK = '/images/monster-clock-monk.png'
+const BRONZE_GOLEM = '/images/monster-bronze-golem.png'
+const CHRONO_SPIDER = '/images/monster-chrono-spider.png'
+const TIME_REAPER = '/images/monster-time-reaper.png'
+const TIME_MASTER = '/images/monster-time-master.png'
 
 type FloorSeed = {
   name: string
@@ -232,6 +238,231 @@ const FLOOR_SEEDS: FloorSeed[] = [
     hitsOverride: 15,
     damageOverride: 3,
     coinsOverride: 28,
+  },
+    // ===========================
+  // CAPÍTULO 2 - TORRE DO RELÓGIO PARTIDO
+  // ===========================
+
+  {
+    name: 'Portão da Torre',
+    subtitle: 'Torre I',
+    story:
+      'Após derrotar a Aranha-Mãe, uma torre colossal surge diante de você. Suas engrenagens nunca param de girar.',
+    monsterName: 'Sentinela do Pêndulo',
+    monsterImage: PENDULUM_GUARD,
+    ops: ['+', '-'],
+    hitsOverride: 8,
+    damageOverride: 2,
+    coinsOverride: 18,
+  },
+  {
+    name: 'Salão dos Pêndulos',
+    subtitle: 'Torre II',
+    story:
+      'Pêndulos gigantes balançam em perfeita sincronia. Um erro pode custar mais do que apenas tempo.',
+    monsterName: 'Monge do Relógio',
+    monsterImage: CLOCK_MONK,
+    ops: ['+', '-', '×'],
+    hitsOverride: 9,
+    damageOverride: 2,
+    coinsOverride: 20,
+  },
+  {
+    name: 'Biblioteca Temporal',
+    subtitle: 'Torre III',
+    story:
+      'Livros escrevem contas sozinhos enquanto o tempo corre em direções diferentes.',
+    monsterName: 'Escriba Temporal',
+    monsterImage: CLOCK_MONK,
+    ops: ['+', '-', '×'],
+    hitsOverride: 10,
+    damageOverride: 2,
+    coinsOverride: 22,
+  },
+  {
+    name: 'Oficina das Engrenagens',
+    subtitle: 'Torre IV',
+    story:
+      'Centenas de engrenagens movimentam criaturas feitas de bronze.',
+    monsterName: 'Golem Mecânico',
+    monsterImage: BRONZE_GOLEM,
+    isBoss: true,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 14,
+    damageOverride: 3,
+    coinsOverride: 35,
+  },
+  {
+    name: 'Corredor Cronológico',
+    subtitle: 'Torre V',
+    story:
+      'Os corredores mudam enquanto você anda. Apenas quem calcula rapidamente encontra a saída.',
+    monsterName: 'Guardião Cronológico',
+    monsterImage: PENDULUM_GUARD,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 11,
+    damageOverride: 2,
+    coinsOverride: 24,
+  },
+  {
+    name: 'Jardim das Horas',
+    subtitle: 'Torre VI',
+    story:
+      'Flores desabrocham e morrem em segundos. O tempo aqui nunca para.',
+    monsterName: 'Aranha Crono',
+    monsterImage: CHRONO_SPIDER,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 12,
+    damageOverride: 2,
+    coinsOverride: 26,
+  },
+  {
+    name: 'Relógio Celestial',
+    subtitle: 'Torre VII',
+    story:
+      'O enorme relógio central dita o ritmo de toda a torre.',
+    monsterName: 'Vigia Celestial',
+    monsterImage: PENDULUM_GUARD,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 13,
+    damageOverride: 3,
+    coinsOverride: 28,
+  },
+  {
+    name: 'Câmara das Ampulhetas',
+    subtitle: 'Torre VIII',
+    story:
+      'Milhares de ampulhetas flutuam ao seu redor enquanto monstros surgem da areia.',
+    monsterName: 'Guardião da Ampulheta',
+    monsterImage: BRONZE_GOLEM,
+    isBoss: true,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 16,
+    damageOverride: 3,
+    coinsOverride: 40,
+  },
+  {
+    name: 'Galeria dos Ecos',
+    subtitle: 'Torre IX',
+    story:
+      'Cada resposta errada ecoa infinitamente pelas paredes da torre.',
+    monsterName: 'Espectro Temporal',
+    monsterImage: TIME_REAPER,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 13,
+    damageOverride: 3,
+    coinsOverride: 30,
+  },
+  {
+    name: 'Observatório Perdido',
+    subtitle: 'Torre X',
+    story:
+      'As estrelas giram em velocidades impossíveis.',
+    monsterName: 'Astrônomo Espectral',
+    monsterImage: TIME_REAPER,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 14,
+    damageOverride: 3,
+    coinsOverride: 32,
+  },
+  {
+    name: 'Escadaria Infinita',
+    subtitle: 'Torre XI',
+    story:
+      'Quanto mais sobe, mais a torre parece crescer.',
+    monsterName: 'Sentinela Infinito',
+    monsterImage: PENDULUM_GUARD,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 15,
+    damageOverride: 3,
+    coinsOverride: 34,
+  },
+  {
+    name: 'Salão das Máquinas',
+    subtitle: 'Torre XII',
+    story:
+      'Engrenagens gigantes alimentam o coração da torre.',
+    monsterName: 'Colosso Mecânico',
+    monsterImage: BRONZE_GOLEM,
+    isBoss: true,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 18,
+    damageOverride: 4,
+    coinsOverride: 50,
+  },
+  {
+    name: 'Catedral do Tempo',
+    subtitle: 'Torre XIII',
+    story:
+      'Sinos tocam sozinhos enquanto criaturas observam das sombras.',
+    monsterName: 'Sacerdote Temporal',
+    monsterImage: CLOCK_MONK,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 15,
+    damageOverride: 3,
+    coinsOverride: 36,
+  },
+  {
+    name: 'Arquivo Proibido',
+    subtitle: 'Torre XIV',
+    story:
+      'Todos os segundos perdidos do mundo estão guardados aqui.',
+    monsterName: 'Arquivista',
+    monsterImage: CLOCK_MONK,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 16,
+    damageOverride: 3,
+    coinsOverride: 38,
+  },
+  {
+    name: 'Corredor Final',
+    subtitle: 'Torre XV',
+    story:
+      'A sala do mestre está próxima.',
+    monsterName: 'Ceifador do Tempo',
+    monsterImage: TIME_REAPER,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 17,
+    damageOverride: 4,
+    coinsOverride: 40,
+  },
+  {
+    name: 'Trono das Horas',
+    subtitle: 'Torre XVI',
+    story:
+      'O próprio tempo ganha forma diante de você.',
+    monsterName: 'Guardião Supremo',
+    monsterImage: TIME_MASTER,
+    isBoss: true,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 20,
+    damageOverride: 4,
+    coinsOverride: 55,
+  },
+  {
+    name: 'Núcleo Temporal',
+    subtitle: 'Torre XVII',
+    story:
+      'A realidade começa a se desfazer.',
+    monsterName: 'Avatar do Tempo',
+    monsterImage: TIME_MASTER,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 18,
+    damageOverride: 4,
+    coinsOverride: 45,
+  },
+  {
+    name: 'Trono do Tempo',
+    subtitle: 'Torre XVIII',
+    story:
+      'No topo da torre espera Aion, o Mestre do Tempo. Apenas quem domina os cálculos poderá derrotá-lo.',
+    monsterName: 'Aion, Mestre do Tempo',
+    monsterImage: TIME_MASTER,
+    isBoss: true,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 25,
+    damageOverride: 5,
+    coinsOverride: 100,
   },
 ]
 
