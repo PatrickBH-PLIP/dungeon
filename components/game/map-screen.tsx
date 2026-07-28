@@ -94,8 +94,8 @@ const chapter2Floors = Array.from(
         })}
       </ul>
       <h2 className="font-serif text-xl font-bold mt-8">
-  🕰️ Capítulo 2 — Torre do Relógio Partido
-</h2>
+        🕰️ Capítulo 2 — Torre do Relógio Partido
+      </h2>
 
 <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
   {chapter2Floors.map((floor) => {
