@@ -97,6 +97,7 @@ export function useGame() {
           ...DEFAULT_SAVE,
           ...parsed,
           upgrades: { ...EMPTY_UPGRADES, ...parsed.upgrades },
+          chapter2Unlocked: parsed.chapter2Unlocked ?? false,
         })
       }
     } catch {
