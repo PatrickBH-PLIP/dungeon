@@ -28,6 +28,8 @@ const SKELETON = '/images/monster-skeleton.png'
 const GOLEM = '/images/monster-golem.png'
 const LICH = '/images/monster-lich.png'
 const DRAGON = '/images/monster-dragon.png'
+const OGRE = '/images/monster-ogre.png'
+const SHADOW_SPIDER = '/images/monster-shadow-spider.png'
 
 type FloorSeed = {
   name: string
@@ -37,6 +39,9 @@ type FloorSeed = {
   monsterImage: string
   isBoss?: boolean
   ops: Op[]
+  hitsOverride?: number
+  damageOverride?: number
+  coinsOverride?: number
 }
 
 const FLOOR_SEEDS: FloorSeed[] = [
@@ -152,6 +157,80 @@ const FLOOR_SEEDS: FloorSeed[] = [
     isBoss: true,
     ops: ['+', '-', '×', '÷'],
   },
+  {
+    name: 'Covil do Ogro',
+    subtitle: 'Andar XIII',
+    story:
+      'Um cheiro de carne queimada enche o ar. O chão treme a cada passo pesado que se aproxima.',
+    monsterName: 'Ogro Grunhidor',
+    monsterImage: OGRE,
+    ops: ['+', '-'],
+    hitsOverride: 6,
+    damageOverride: 1,
+    coinsOverride: 10,
+  },
+  {
+    name: 'Covil do Ogro',
+    subtitle: 'Andar XIV',
+    story:
+      'O grunhido fica mais grave. Este ogro carrega uma clava manchada de contas erradas de outros aventureiros.',
+    monsterName: 'Ogro Selvagem',
+    monsterImage: OGRE,
+    ops: ['+', '-', '×'],
+    hitsOverride: 9,
+    damageOverride: 2,
+    coinsOverride: 16,
+  },
+  {
+    name: 'Trono do Ogro',
+    subtitle: 'Andar XV',
+    story:
+      'Ossos de outros ogros formam o trono onde ele se senta. Só o cálculo mais rápido o derruba.',
+    monsterName: 'Ogro Devastador',
+    monsterImage: OGRE,
+    isBoss: true,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 14,
+    damageOverride: 3,
+    coinsOverride: 26,
+  },
+  {
+    name: 'Teia Rastejante',
+    subtitle: 'Andar XVI',
+    story:
+      'Fios grudentos cobrem as paredes. Algo pequeno e rápido observa de um canto escuro.',
+    monsterName: 'Aranha Rastejante',
+    monsterImage: SHADOW_SPIDER,
+    ops: ['+', '-'],
+    hitsOverride: 5,
+    damageOverride: 1,
+    coinsOverride: 9,
+  },
+  {
+    name: 'Ninho Venenoso',
+    subtitle: 'Andar XVII',
+    story:
+      'O ar fica denso e amargo. As picadas dessa aranha carregam mais que veneno — carregam erros.',
+    monsterName: 'Aranha Venenosa',
+    monsterImage: SHADOW_SPIDER,
+    ops: ['+', '-', '×'],
+    hitsOverride: 8,
+    damageOverride: 2,
+    coinsOverride: 15,
+  },
+  {
+    name: 'Câmara da Mãe das Trevas',
+    subtitle: 'Andar XVIII',
+    story:
+      'Milhares de olhos brilham na escuridão. A Aranha-Mãe tece cálculos como teias, e nenhuma tem saída fácil.',
+    monsterName: 'Aranha-Mãe das Trevas',
+    monsterImage: SHADOW_SPIDER,
+    isBoss: true,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 15,
+    damageOverride: 3,
+    coinsOverride: 28,
+  },
 ]
 
 const ROMAN = [
@@ -198,10 +277,10 @@ export function getFloor(index: number): Floor {
     monsterImage: base.monsterImage,
     isBoss,
     ops: base.ops,
-    hits: clamp(5 + Math.floor(depth / 2), 5, 12) + (isBoss ? 3 : 0),
+    hits: base.hitsOverride ?? (clamp(5 + Math.floor(depth / 2), 5, 12) + (isBoss ? 3 : 0)),
     timePerQuestion: clamp(14 - Math.floor(depth / 2), 6, 14) - (isBoss ? 1 : 0),
-    damage: isBoss ? 2 : 1,
-    coinsPerHit: 4 + depth * 2 + (isEndless ? 6 : 0),
+    damage: base.damageOverride ?? (isBoss ? 2 : 1),
+    coinsPerHit: base.coinsOverride ?? (4 + depth * 2 + (isEndless ? 6 : 0)),
   }
 }
 
