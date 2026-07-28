@@ -99,7 +99,9 @@ const chapter2Floors = Array.from(
 
 <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
   {chapter2Floors.map((floor) => {
-    const unlocked = floor.index <= save.unlockedFloor
+    const unlocked =
+      save.chapter2Unlocked &&
+      floor.index <= save.unlockedFloor
     const cleared = floor.index <= save.deepestFloor
 
     return (
