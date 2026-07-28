@@ -137,9 +137,7 @@ export function useGame() {
         monsterHp: floor.hits,
         lives: stats.maxLives,
         maxLives: stats.maxLives,
-        question: floor.isBoss
-  ? generateEquationQuestion(index)
-  : generateChapter2Question(index),
+        question: generateQuestion(index, floor.ops),
         timeMax,
         timeLeft: timeMax,
         input: '',
