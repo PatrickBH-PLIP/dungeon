@@ -268,7 +268,7 @@ export function useGame() {
     const won = battle.phase === 'won'
     setSave((s) => ({
       ...s,
-      coins: s.coins + battle.coins,
+      coins: s.coins + (won ? battle.coins : 0),
       totalCorrect: s.totalCorrect + battle.correct,
       totalWrong: s.totalWrong + battle.wrong,
       unlockedFloor: won ? Math.max(s.unlockedFloor, battle.floor.index + 1) : s.unlockedFloor,
