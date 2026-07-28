@@ -200,9 +200,7 @@ export function BattleScreen({
               Runa de combate
             </p>
             <p className="mt-2 font-serif text-4xl font-bold tabular-nums text-glow sm:text-5xl">
-  {question.kind === 'equation' || question.kind === 'expression'
-    ? question.display
-    : `${question.a} ${question.op} ${question.b}`}
+              {question.a} {question.op} {question.b}
             </p>
           </div>
 
