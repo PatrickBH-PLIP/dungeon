@@ -6,6 +6,8 @@ export type Question = {
   op: Op
   answer: number
   key: string
+  display: string
+   kind?: 'expression' | 'equation'
 }
 
 export type Floor = {
@@ -30,6 +32,12 @@ const LICH = '/images/monster-lich.png'
 const DRAGON = '/images/monster-dragon.png'
 const OGRE = '/images/monster-ogre.png'
 const SHADOW_SPIDER = '/images/monster-shadow-spider.png'
+const PENDULUM_GUARD = '/images/monster-pendulum-guard.png'
+const CLOCK_MONK = '/images/monster-clock-monk.png'
+const BRONZE_GOLEM = '/images/monster-bronze-golem.png'
+const CHRONO_SPIDER = '/images/monster-chrono-spider.png'
+const TIME_REAPER = '/images/monster-time-reaper.png'
+const TIME_MASTER = '/images/monster-time-master.png'
 
 type FloorSeed = {
   name: string
@@ -231,6 +239,231 @@ const FLOOR_SEEDS: FloorSeed[] = [
     damageOverride: 3,
     coinsOverride: 28,
   },
+    // ===========================
+  // CAPÍTULO 2 - TORRE DO RELÓGIO PARTIDO
+  // ===========================
+
+  {
+    name: 'Portão da Torre',
+    subtitle: 'Torre I',
+    story:
+      'Após derrotar a Aranha-Mãe, uma torre colossal surge diante de você. Suas engrenagens nunca param de girar.',
+    monsterName: 'Sentinela do Pêndulo',
+    monsterImage: PENDULUM_GUARD,
+    ops: ['+', '-'],
+    hitsOverride: 8,
+    damageOverride: 2,
+    coinsOverride: 18,
+  },
+  {
+    name: 'Salão dos Pêndulos',
+    subtitle: 'Torre II',
+    story:
+      'Pêndulos gigantes balançam em perfeita sincronia. Um erro pode custar mais do que apenas tempo.',
+    monsterName: 'Monge do Relógio',
+    monsterImage: CLOCK_MONK,
+    ops: ['+', '-', '×'],
+    hitsOverride: 9,
+    damageOverride: 2,
+    coinsOverride: 20,
+  },
+  {
+    name: 'Biblioteca Temporal',
+    subtitle: 'Torre III',
+    story:
+      'Livros escrevem contas sozinhos enquanto o tempo corre em direções diferentes.',
+    monsterName: 'Escriba Temporal',
+    monsterImage: CLOCK_MONK,
+    ops: ['+', '-', '×'],
+    hitsOverride: 10,
+    damageOverride: 2,
+    coinsOverride: 22,
+  },
+  {
+    name: 'Oficina das Engrenagens',
+    subtitle: 'Torre IV',
+    story:
+      'Centenas de engrenagens movimentam criaturas feitas de bronze.',
+    monsterName: 'Golem Mecânico',
+    monsterImage: BRONZE_GOLEM,
+    isBoss: true,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 14,
+    damageOverride: 3,
+    coinsOverride: 35,
+  },
+  {
+    name: 'Corredor Cronológico',
+    subtitle: 'Torre V',
+    story:
+      'Os corredores mudam enquanto você anda. Apenas quem calcula rapidamente encontra a saída.',
+    monsterName: 'Guardião Cronológico',
+    monsterImage: PENDULUM_GUARD,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 11,
+    damageOverride: 2,
+    coinsOverride: 24,
+  },
+  {
+    name: 'Jardim das Horas',
+    subtitle: 'Torre VI',
+    story:
+      'Flores desabrocham e morrem em segundos. O tempo aqui nunca para.',
+    monsterName: 'Aranha Crono',
+    monsterImage: CHRONO_SPIDER,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 12,
+    damageOverride: 2,
+    coinsOverride: 26,
+  },
+  {
+    name: 'Relógio Celestial',
+    subtitle: 'Torre VII',
+    story:
+      'O enorme relógio central dita o ritmo de toda a torre.',
+    monsterName: 'Vigia Celestial',
+    monsterImage: PENDULUM_GUARD,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 13,
+    damageOverride: 3,
+    coinsOverride: 28,
+  },
+  {
+    name: 'Câmara das Ampulhetas',
+    subtitle: 'Torre VIII',
+    story:
+      'Milhares de ampulhetas flutuam ao seu redor enquanto monstros surgem da areia.',
+    monsterName: 'Guardião da Ampulheta',
+    monsterImage: BRONZE_GOLEM,
+    isBoss: true,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 16,
+    damageOverride: 3,
+    coinsOverride: 40,
+  },
+  {
+    name: 'Galeria dos Ecos',
+    subtitle: 'Torre IX',
+    story:
+      'Cada resposta errada ecoa infinitamente pelas paredes da torre.',
+    monsterName: 'Espectro Temporal',
+    monsterImage: TIME_REAPER,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 13,
+    damageOverride: 3,
+    coinsOverride: 30,
+  },
+  {
+    name: 'Observatório Perdido',
+    subtitle: 'Torre X',
+    story:
+      'As estrelas giram em velocidades impossíveis.',
+    monsterName: 'Astrônomo Espectral',
+    monsterImage: TIME_REAPER,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 14,
+    damageOverride: 3,
+    coinsOverride: 32,
+  },
+  {
+    name: 'Escadaria Infinita',
+    subtitle: 'Torre XI',
+    story:
+      'Quanto mais sobe, mais a torre parece crescer.',
+    monsterName: 'Sentinela Infinito',
+    monsterImage: PENDULUM_GUARD,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 15,
+    damageOverride: 3,
+    coinsOverride: 34,
+  },
+  {
+    name: 'Salão das Máquinas',
+    subtitle: 'Torre XII',
+    story:
+      'Engrenagens gigantes alimentam o coração da torre.',
+    monsterName: 'Colosso Mecânico',
+    monsterImage: BRONZE_GOLEM,
+    isBoss: true,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 18,
+    damageOverride: 4,
+    coinsOverride: 50,
+  },
+  {
+    name: 'Catedral do Tempo',
+    subtitle: 'Torre XIII',
+    story:
+      'Sinos tocam sozinhos enquanto criaturas observam das sombras.',
+    monsterName: 'Sacerdote Temporal',
+    monsterImage: CLOCK_MONK,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 15,
+    damageOverride: 3,
+    coinsOverride: 36,
+  },
+  {
+    name: 'Arquivo Proibido',
+    subtitle: 'Torre XIV',
+    story:
+      'Todos os segundos perdidos do mundo estão guardados aqui.',
+    monsterName: 'Arquivista',
+    monsterImage: CLOCK_MONK,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 16,
+    damageOverride: 3,
+    coinsOverride: 38,
+  },
+  {
+    name: 'Corredor Final',
+    subtitle: 'Torre XV',
+    story:
+      'A sala do mestre está próxima.',
+    monsterName: 'Ceifador do Tempo',
+    monsterImage: TIME_REAPER,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 17,
+    damageOverride: 4,
+    coinsOverride: 40,
+  },
+  {
+    name: 'Trono das Horas',
+    subtitle: 'Torre XVI',
+    story:
+      'O próprio tempo ganha forma diante de você.',
+    monsterName: 'Guardião Supremo',
+    monsterImage: TIME_MASTER,
+    isBoss: true,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 20,
+    damageOverride: 4,
+    coinsOverride: 55,
+  },
+  {
+    name: 'Núcleo Temporal',
+    subtitle: 'Torre XVII',
+    story:
+      'A realidade começa a se desfazer.',
+    monsterName: 'Avatar do Tempo',
+    monsterImage: TIME_MASTER,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 18,
+    damageOverride: 4,
+    coinsOverride: 45,
+  },
+  {
+    name: 'Trono do Tempo',
+    subtitle: 'Torre XVIII',
+    story:
+      'No topo da torre espera Aion, o Mestre do Tempo. Apenas quem domina os cálculos poderá derrotá-lo.',
+    monsterName: 'Aion, Mestre do Tempo',
+    monsterImage: TIME_MASTER,
+    isBoss: true,
+    ops: ['+', '-', '×', '÷'],
+    hitsOverride: 25,
+    damageOverride: 5,
+    coinsOverride: 100,
+  },
 ]
 
 export const TOTAL_FIXED_FLOORS = FLOOR_SEEDS.length
@@ -331,13 +564,13 @@ export function generateQuestion(floorIndex: number, ops: Op[], avoidKey?: strin
       answer = quotient
     }
 
-    const key = `${a}${op}${b}`
+ const key = `${a}${op}${b}`
     if (key === avoidKey) continue
-    q = { a, b, op, answer, key }
+    q = { a, b, op, answer, key, display: `${a} ${op} ${b}` }
     break
   }
 
-  return q ?? { a: 1, b: 1, op: '+', answer: 2, key: '1+1' }
+  return q ?? { a: 1, b: 1, op: '+', answer: 2, key: '1+1', display: '1 + 1' }
 }
 
 export function oracleHint(answer: number): string {
@@ -346,4 +579,137 @@ export function oracleHint(answer: number): string {
   const sign = answer < 0 ? 'negativo' : 'positivo'
   const rounded = Math.round(answer / 10) * 10
   return `${digits} algarismo${digits > 1 ? 's' : ''} · número ${parity} e ${sign} · perto de ${rounded}`
+}
+function randOp(): Op {
+  return pick(['+', '-', '×', '÷'])
+}
+
+function applyStepForward(
+  current: number,
+  op: Op,
+  depth: number,
+  allowNeg: boolean,
+): { b: number; result: number } | null {
+  if (op === '+') {
+    const max = clamp(9 + depth * 6, 9, 500)
+    const b = randInt(2, max)
+    return { b, result: current + b }
+  }
+  if (op === '-') {
+    const max = clamp(9 + depth * 6, 9, 500)
+    let b = randInt(2, max)
+    let result = current - b
+    if (!allowNeg && result < 0) {
+      b = randInt(2, Math.max(2, current))
+      result = current - b
+    }
+    return { b, result }
+  }
+  if (op === '×') {
+    const bMax = clamp(3 + Math.floor(depth / 2), 3, 12)
+    const b = randInt(2, bMax)
+    return { b, result: current * b }
+  }
+  const divisors: number[] = []
+  for (let i = 2; i <= Math.min(current, 12); i++) {
+    if (current % i === 0) divisors.push(i)
+  }
+  if (divisors.length === 0 || current <= 0) return null
+  const b = pick(divisors)
+  return { b, result: current / b }
+}
+
+export function generateChapter2Question(floorIndex: number, avoidKey?: string): Question {
+  const depth = floorIndex
+  const allowNeg = depth >= 8
+  const isHigh = (op: Op) => op === '×' || op === '÷'
+
+  for (let attempt = 0; attempt < 20; attempt++) {
+    const op1 = randOp()
+    const op2 = randOp()
+
+    let a: number, b1: number, b2: number, answer: number
+
+    if (!isHigh(op1) && isHigh(op2)) {
+      const b1Max = clamp(3 + depth * 2, 3, 100)
+      b1 = randInt(2, b1Max)
+      const step2 = applyStepForward(b1, op2, depth, allowNeg)
+      if (!step2) continue
+      b2 = step2.b
+      const mid = step2.result
+
+      const aMax = clamp(6 + depth * 4, 6, 200)
+      a = randInt(2, aMax)
+      answer = op1 === '+' ? a + mid : a - mid
+      if (!allowNeg && answer < 0) continue
+    } else {
+      const startMax = clamp(6 + depth * 4, 6, 200)
+      a = randInt(2, startMax)
+      const step1 = applyStepForward(a, op1, depth, allowNeg)
+      if (!step1) continue
+      b1 = step1.b
+      const step2 = applyStepForward(step1.result, op2, depth, allowNeg)
+      if (!step2) continue
+      b2 = step2.b
+      answer = step2.result
+    }
+
+    const display = `${a} ${op1} ${b1} ${op2} ${b2}`
+    if (display === avoidKey) continue
+
+    return {
+      a,
+      b: b1,
+      op: op1,
+      answer,
+      key: display,
+      display,
+      kind: 'expression',
+    }
+  }
+
+  return {
+    a: 2,
+    b: 2,
+    op: '+',
+    answer: 6,
+    key: '2 + 2 + 2 fallback',
+    display: '2 + 2 + 2',
+    kind: 'expression',
+  }
+}
+
+export function generateEquationQuestion(floorIndex: number, avoidKey?: string): Question {
+  const depth = floorIndex
+
+  for (let attempt = 0; attempt < 20; attempt++) {
+    const aCoef = randInt(2, clamp(2 + Math.floor(depth / 4), 2, 9))
+    const x = randInt(2, clamp(3 + Math.floor(depth / 3), 3, 15))
+    const bTerm = randInt(1, clamp(3 + depth, 3, 40))
+    const op: Op = pick(['+', '-'])
+    const c = op === '+' ? aCoef * x + bTerm : aCoef * x - bTerm
+
+    const display = `${aCoef}x ${op} ${bTerm} = ${c}`
+    if (display === avoidKey) continue
+
+    return {
+      a: aCoef,
+      b: bTerm,
+      op,
+      answer: x,
+      key: display,
+      display,
+      kind: 'equation',
+    }
+  }
+
+  return {
+    a: 1,
+    b: 1,
+    op: '+',
+    answer: 1,
+    key: '1x + 1 = 2 fallback',
+    display: '1x + 1 = 2',
+    kind: 'equation',
+  }
 }
