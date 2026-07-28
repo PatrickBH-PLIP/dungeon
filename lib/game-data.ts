@@ -233,6 +233,8 @@ const FLOOR_SEEDS: FloorSeed[] = [
   },
 ]
 
+export const TOTAL_FIXED_FLOORS = FLOOR_SEEDS.length
+
 const ROMAN = [
   'XIII',
   'XIV',
