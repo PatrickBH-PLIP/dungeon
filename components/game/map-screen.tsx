@@ -3,7 +3,7 @@
 import { ArrowLeft, Crown, Lock, Skull, Store } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { CoinTag } from '@/components/game/hud'
-import { getFloor } from '@/lib/game-data'
+import { getFloor, TOTAL_FIXED_FLOORS } from '@/lib/game-data'
 import type { SaveData } from '@/lib/use-game'
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
 }
 
 export function MapScreen({ save, onSelect, onBack, onShop }: Props) {
-  const totalShown = Math.max(18, save.unlockedFloor + 1)
+  const totalShown = Math.max(TOTAL_FIXED_FLOORS, save.unlockedFloor + 1)
   const floors = Array.from({ length: totalShown }, (_, i) => getFloor(i + 1))
 
   return (
