@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   generateQuestion,
+  generateChapter2Question,
+  generateEquationQuestion,
   getFloor,
   oracleHint,
   type Floor,
@@ -135,7 +137,9 @@ export function useGame() {
         monsterHp: floor.hits,
         lives: stats.maxLives,
         maxLives: stats.maxLives,
-        question: generateQuestion(index, floor.ops),
+        question: floor.isBoss
+  ? generateEquationQuestion(index)
+  : generateChapter2Question(index),
         timeMax,
         timeLeft: timeMax,
         input: '',
