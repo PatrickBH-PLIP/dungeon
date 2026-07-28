@@ -40,7 +40,7 @@ export function ResultScreen({ battle, onRetry, onNext, onShop, onMenu }: Props)
         <p className="mt-2 leading-relaxed text-pretty text-muted-foreground">
           {won
             ? `${battle.floor.monsterName} virou pó e a runa do andar voltou a brilhar. A passagem para ${nextFloor.name} está aberta.`
-            : `${battle.floor.monsterName} foi mais rápido que seus cálculos. Todas as moedas deste andar se perderam na escuridão.' }
+            : `${battle.floor.monsterName} foi mais rápido que seus cálculos. As moedas que você juntou ficam com você — melhore seu equipamento e volte.`}
         </p>
 
         <dl className="mt-6 grid grid-cols-2 gap-3 text-left sm:grid-cols-4">
