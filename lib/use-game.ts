@@ -271,19 +271,26 @@ export function useGame() {
   }, [battle?.phase, battle])
 
   /* ---------- fim do andar ---------- */
-  useEffect(() => {
-    if (!battle) return
-    if (battle.phase !== 'won' && battle.phase !== 'lost') return
-    if (committedRef.current) return
-    committedRef.current = true
-    const won = battle.phase === 'won'
-    setSave((s) => ({
-      ...s,
-      coins: s.coins + (won ? battle.coins : 0),
-      totalCorrect: s.totalCorrect + battle.correct,
-      totalWrong: s.totalWrong + battle.wrong,
-      unlockedFloor: won ? Math.max(s.unlockedFloor, battle.floor.index + 1) : s.unlockedFloor,
-      deepestFloor: won ? Math.max(s.deepestFloor, battle.floor.index) : s.deepestFloor,
+  setSave((s) => ({
+    ...s,
+    coins: s.coins + (won ? battle.coins : 0),
+
+    totalCorrect: s.totalCorrect + battle.correct,
+
+    totalWrong: s.totalWrong + battle.wrong,
+
+    unlockedFloor: won
+      ? Math.max(s.unlockedFloor, battle.floor.index + 1)
+      : s.unlockedFloor,
+
+    deepestFloor: won
+      ? Math.max(s.deepestFloor, battle.floor.index)
+      : s.deepestFloor,
+
+    chapter2Unlocked:
+      won && battle.floor.index === 18
+        ? true
+        : s.chapter2Unlocked,
     }))
     const id = setTimeout(() => setScreen('result'), 900)
     return () => clearTimeout(id)
@@ -351,31 +358,21 @@ export function useGame() {
 
   const flee = useCallback(() => {
     const b = battleRef.current
+
     if (b && !committedRef.current) {
       committedRef.current = true
+
       setSave((s) => ({
-  ...s,
-  coins: s.coins + (won ? battle.coins : 0),
-  totalCorrect: s.totalCorrect + battle.correct,
-  totalWrong: s.totalWrong + battle.wrong,
+      ...s,
+      coins: s.coins + b.coins,
+      totalCorrect: s.totalCorrect + b.correct,
+      totalWrong: s.totalWrong + b.wrong,
+    }))
+  }
 
-  unlockedFloor: won
-    ? Math.max(s.unlockedFloor, battle.floor.index + 1)
-    : s.unlockedFloor,
-
-  deepestFloor: won
-    ? Math.max(s.deepestFloor, battle.floor.index)
-    : s.deepestFloor,
-
-  chapter2Unlocked:
-    won && battle.floor.index === 18
-      ? true
-      : s.chapter2Unlocked,
-      }))
-    }
-    setBattle(null)
-    setScreen('menu')
-  }, [])
+  setBattle(null)
+  setScreen('menu')
+}, [])
 
   const resetSave = useCallback(() => {
     setSave({ ...DEFAULT_SAVE, upgrades: { ...EMPTY_UPGRADES } })
