@@ -137,7 +137,12 @@ export function useGame() {
         monsterHp: floor.hits,
         lives: stats.maxLives,
         maxLives: stats.maxLives,
-        question: generateQuestion(index, floor.ops),
+        question:
+          floor.isBoss && index >= 19
+            ? generateEquationQuestion(index)
+            : index <= 18
+              ? generateQuestion(index, floor.ops)
+              : generateChapter2Question(index),
         timeMax,
         timeLeft: timeMax,
         input: '',
