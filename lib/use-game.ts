@@ -29,6 +29,7 @@ export type SaveData = {
   upgrades: UpgradeLevels
   unlockedFloor: number
   deepestFloor: number
+  chapter2Unlocked: boolean
   totalCorrect: number
   totalWrong: number
 }
@@ -38,6 +39,7 @@ const DEFAULT_SAVE: SaveData = {
   upgrades: { ...EMPTY_UPGRADES },
   unlockedFloor: 1,
   deepestFloor: 0,
+  chapter2Unlocked: false,
   totalCorrect: 0,
   totalWrong: 0,
 }
@@ -256,10 +258,12 @@ export function useGame() {
         if (!b || (b.phase !== 'correct' && b.phase !== 'wrong')) return b
         return {
           ...b,
-          question: generateQuestion(b.floor.index, b.floor.ops, b.question.key),
-          timeLeft: b.timeMax,
-          phase: 'asking',
-          lastAnswer: null,
+          question:
+            b.floor.isBoss && b.floor.index >= 19
+              ? generateEquationQuestion(b.floor.index, b.question.key)
+              : b.floor.index >= 19
+                 ? generateChapter2Question(b.floor.index, b.question.key)
+                 : generateQuestion(b.floor.index, b.floor.ops, b.question.key),
         }
       })
     }, delay)
@@ -350,10 +354,23 @@ export function useGame() {
     if (b && !committedRef.current) {
       committedRef.current = true
       setSave((s) => ({
-        ...s,
-        coins: s.coins + b.coins,
-        totalCorrect: s.totalCorrect + b.correct,
-        totalWrong: s.totalWrong + b.wrong,
+  ...s,
+  coins: s.coins + (won ? battle.coins : 0),
+  totalCorrect: s.totalCorrect + battle.correct,
+  totalWrong: s.totalWrong + battle.wrong,
+
+  unlockedFloor: won
+    ? Math.max(s.unlockedFloor, battle.floor.index + 1)
+    : s.unlockedFloor,
+
+  deepestFloor: won
+    ? Math.max(s.deepestFloor, battle.floor.index)
+    : s.deepestFloor,
+
+  chapter2Unlocked:
+    won && battle.floor.index === 18
+      ? true
+      : s.chapter2Unlocked,
       }))
     }
     setBattle(null)
