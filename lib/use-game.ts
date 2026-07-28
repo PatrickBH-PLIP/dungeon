@@ -271,8 +271,18 @@ export function useGame() {
   }, [battle?.phase, battle])
 
   /* ---------- fim do andar ---------- */
+  useEffect(() => {
+  if (!battle) return
+  if (battle.phase !== 'won' && battle.phase !== 'lost') return
+  if (committedRef.current) return
+
+  committedRef.current = true
+
+  const won = battle.phase === 'won'
+
   setSave((s) => ({
     ...s,
+
     coins: s.coins + (won ? battle.coins : 0),
 
     totalCorrect: s.totalCorrect + battle.correct,
@@ -280,21 +290,31 @@ export function useGame() {
     totalWrong: s.totalWrong + battle.wrong,
 
     unlockedFloor: won
-      ? Math.max(s.unlockedFloor, battle.floor.index + 1)
+      ? Math.max(
+          s.unlockedFloor,
+          battle.floor.index + 1
+        )
       : s.unlockedFloor,
 
     deepestFloor: won
-      ? Math.max(s.deepestFloor, battle.floor.index)
+      ? Math.max(
+          s.deepestFloor,
+          battle.floor.index
+        )
       : s.deepestFloor,
 
+    // DESBLOQUEIA CAPÍTULO 2 AO DERROTAR O ANDAR 18
     chapter2Unlocked:
       won && battle.floor.index === 18
         ? true
         : s.chapter2Unlocked,
-    }))
-    const id = setTimeout(() => setScreen('result'), 900)
-    return () => clearTimeout(id)
-  }, [battle?.phase, battle])
+  }))
+
+  const id = setTimeout(() => setScreen('result'), 900)
+
+  return () => clearTimeout(id)
+
+}, [battle?.phase, battle])
 
   /* ---------- entrada numérica ---------- */
   const typeDigit = useCallback((d: string) => {
