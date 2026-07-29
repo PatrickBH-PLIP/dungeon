@@ -26,22 +26,36 @@ export type Phase = 'asking' | 'correct' | 'wrong' | 'won' | 'lost'
 
 export type SaveData = {
   unlockedFloor: number
+  deepestFloor: number
+
+  cryptUnlockedFloor: number
+  cryptDeepestFloor: number
+
+  eclipseUnlockedFloor: number
+  eclipseDeepestFloor: number
+
   coins: number
   selectedTower: 'crypt' | 'eclipse'
   eclipseUnlocked: boolean
   upgrades: UpgradeLevels
-  deepestFloor: number
   totalCorrect: number
   totalWrong: number
 }
 
 const DEFAULT_SAVE: SaveData = {
   unlockedFloor: 1,
+  deepestFloor: 0,
+
+  cryptUnlockedFloor: 1,
+  cryptDeepestFloor: 0,
+
+  eclipseUnlockedFloor: 1,
+  eclipseDeepestFloor: 0,
+
   coins: 0,
   selectedTower: 'crypt',
   eclipseUnlocked: false,
   upgrades: { ...EMPTY_UPGRADES },
-  deepestFloor: 0,
   totalCorrect: 0,
   totalWrong: 0,
 }
@@ -123,7 +137,11 @@ export function useGame() {
     setToasts((t) => [...t, { id, text, tone }])
     setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 1100)
   }, [])
-
+  const openFloor = useCallback((index: number) => {
+    setPendingFloor(index)
+    setScreen('story')
+  }, [])
+  
   /* ---------- fluxo de telas ---------- */
   const startBattle = useCallback(
   (index: number) => {
@@ -277,31 +295,65 @@ export function useGame() {
   /* ---------- fim do andar ---------- */
   useEffect(() => {
     if (!battle) return
-    if (battle.phase !== 'won' && battle.phase !== 'lost') return
-    if (committedRef.current) return
-    committedRef.current = true
-    const won = battle.phase === 'won'
-    setSave((s) => ({
-      ...s,
-      coins: s.coins + (won ? battle.coins : 0),
-      totalCorrect: s.totalCorrect + battle.correct,
-      totalWrong: s.totalWrong + battle.wrong,
+if (battle.phase !== 'won' && battle.phase !== 'lost') return
+if (committedRef.current) return
 
-      unlockedFloor: won
-        ? Math.max(s.unlockedFloor, battle.floor.index + 1)
-        : s.unlockedFloor,
+committedRef.current = true
 
-      deepestFloor: won
-        ? Math.max(s.deepestFloor, battle.floor.index)
-        : s.deepestFloor,
+setSave((s) => {
+  const won = battle.phase === 'won'
 
-      eclipseUnlocked:
-         won &&
-        battle.floor.index === 18 &&
-        s.selectedTower === 'crypt'
+  const cryptUnlocked =
+    s.selectedTower === 'crypt' && won
+      ? Math.max(s.cryptUnlockedFloor, battle.floor.index + 1)
+      : s.cryptUnlockedFloor
+
+  const cryptDeepest =
+    s.selectedTower === 'crypt' && won
+      ? Math.max(s.cryptDeepestFloor, battle.floor.index)
+      : s.cryptDeepestFloor
+
+  const eclipseUnlockedFloor =
+    s.selectedTower === 'eclipse' && won
+      ? Math.max(s.eclipseUnlockedFloor, battle.floor.index + 1)
+      : s.eclipseUnlockedFloor
+
+  const eclipseDeepest =
+    s.selectedTower === 'eclipse' && won
+      ? Math.max(s.eclipseDeepestFloor, battle.floor.index)
+      : s.eclipseDeepestFloor
+
+  return {
+    ...s,
+
+    coins: s.coins + (won ? battle.coins : 0),
+    totalCorrect: s.totalCorrect + battle.correct,
+    totalWrong: s.totalWrong + battle.wrong,
+
+    cryptUnlockedFloor: cryptUnlocked,
+    cryptDeepestFloor: cryptDeepest,
+
+    eclipseUnlockedFloor,
+    eclipseDeepestFloor: eclipseDeepest,
+
+    unlockedFloor:
+      s.selectedTower === 'crypt'
+        ? cryptUnlocked
+        : eclipseUnlockedFloor,
+
+    deepestFloor:
+      s.selectedTower === 'crypt'
+        ? cryptDeepest
+        : eclipseDeepest,
+
+    eclipseUnlocked:
+      won &&
+      battle.floor.index === 18 &&
+      s.selectedTower === 'crypt'
         ? true
         : s.eclipseUnlocked,
-}))
+  }
+})
     const id = setTimeout(() => setScreen('result'), 900)
     return () => clearTimeout(id)
   }, [battle?.phase, battle])
@@ -381,25 +433,27 @@ export function useGame() {
     setScreen('menu')
   }, [])
 
-  const selectTower = useCallback((tower: 'crypt' | 'eclipse') => {
-  setSave((s) => ({
-    ...s,
-    selectedTower: tower,
-  }))
-}, [])
-
 const resetSave = useCallback(() => {
     setSave({ ...DEFAULT_SAVE, upgrades: { ...EMPTY_UPGRADES } })
     setBattle(null)
     setScreen('menu')
   }, [])
 const selectTower = useCallback((tower: 'crypt' | 'eclipse') => {
-    setSave((s) => ({
-      ...s,
-      selectedTower: tower,
-      unlockedFloor: 1,
-    }))
-  }, [])
+  setSave((s) => ({
+    ...s,
+    selectedTower: tower,
+
+    unlockedFloor:
+      tower === 'crypt'
+        ? s.cryptUnlockedFloor
+        : s.eclipseUnlockedFloor,
+
+    deepestFloor:
+      tower === 'crypt'
+        ? s.cryptDeepestFloor
+        : s.eclipseDeepestFloor,
+  }))
+}, [])
   
   return {
     loaded,
