@@ -15,10 +15,19 @@ type Props = {
 }
 
 export function MapScreen({ save, onSelect, onBack, onShop }: Props) {
+  const unlockedFloor =
+    save.selectedTower === 'crypt'
+      ? save.cryptUnlockedFloor
+      : save.eclipseUnlockedFloor
+
+  const deepestFloor =
+    save.selectedTower === 'crypt'
+      ? save.cryptDeepestFloor
+      : save.eclipseDeepestFloor
   const totalShown =
     save.selectedTower === 'eclipse'
       ? TOTAL_ECLIPSE_FLOORS
-      : Math.max(TOTAL_FIXED_FLOORS, save.unlockedFloor + 1)
+      : Math.max(TOTAL_FIXED_FLOORS, unlockedFloor + 1)
 
   const floors = Array.from({ length: totalShown }, (_, i) =>
     save.selectedTower === 'eclipse'
@@ -51,8 +60,8 @@ export function MapScreen({ save, onSelect, onBack, onShop }: Props) {
 
       <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {floors.map((floor) => {
-          const unlocked = floor.index <= save.unlockedFloor
-          const cleared = floor.index <= save.deepestFloor
+          const unlocked = floor.index <= unlockedFloor
+          const cleared = floor.index <= deepestFloor
           return (
             <li key={floor.index}>
               <button
