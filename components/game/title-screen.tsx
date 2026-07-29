@@ -24,10 +24,15 @@ export function TitleScreen({
   onReset,
   onSelectTower,
 }: Props) {
+  const currentUnlocked =
+    save.selectedTower === 'crypt'
+      ? save.cryptUnlockedFloor
+      : save.eclipseUnlockedFloor
+  
   const next =
     save.selectedTower === 'eclipse'
-      ? getEclipseFloor(save.unlockedFloor)
-      : getFloor(save.unlockedFloor)
+      ? getEclipseFloor(currentUnlocked)
+      : getFloor(currentUnlocked)
   const total = save.totalCorrect + save.totalWrong
   const accuracy = total > 0 ? Math.round((save.totalCorrect / total) * 100) : 0
 
@@ -88,7 +93,7 @@ export function TitleScreen({
             <ScrollText className="size-5" />
             {save.selectedTower === 'eclipse'
               ? 'Entrar no Eclipse'
-              : save.unlockedFloor > 1
+              : currentUnlocked > 1
                 ? 'Continuar descida'
                 : 'Entrar na Cripta'}
           </span>
@@ -115,7 +120,9 @@ export function TitleScreen({
         <div className="rounded-lg border border-border bg-card/80 px-3 py-1.5 text-sm text-muted-foreground">
           Andar mais fundo:{' '}
           <span className="font-serif font-semibold text-foreground">
-            {save.deepestFloor || '—'}
+            {save.selectedTower === 'crypt'
+              ? save.cryptDeepestFloor || '—'
+              : save.eclipseDeepestFloor || '—'}
           </span>
         </div>
         <div className="rounded-lg border border-border bg-card/80 px-3 py-1.5 text-sm text-muted-foreground">
