@@ -390,6 +390,7 @@ export function useGame() {
   return {
     loaded,
     save,
+    setSave,
     stats,
     screen,
     setScreen,
