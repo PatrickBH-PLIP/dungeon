@@ -1,9 +1,11 @@
-import type { Floor, Op } from './game-data'
+import type { Floor, Op, Question } from './game-data'
+import { generateQuestion } from './game-data'
+
 
 const ECLIPSE_MONSTER = '/images/monster-shadow-spider.png'
-const OGRE = '/images/monster-ogre.png'
 const LICH = '/images/monster-lich.png'
 const DRAGON = '/images/monster-dragon.png'
+
 
 type EclipseFloorSeed = {
   name: string
@@ -18,7 +20,9 @@ type EclipseFloorSeed = {
   coins: number
 }
 
+
 const ECLIPSE_FLOORS: EclipseFloorSeed[] = [
+
   {
     name: 'Entrada do Eclipse',
     subtitle: 'Andar I',
@@ -31,6 +35,7 @@ const ECLIPSE_FLOORS: EclipseFloorSeed[] = [
     damage: 2,
     coins: 20,
   },
+
 
   {
     name: 'Salão das Sombras',
@@ -45,6 +50,7 @@ const ECLIPSE_FLOORS: EclipseFloorSeed[] = [
     coins: 30,
   },
 
+
   {
     name: 'Câmara do Vazio',
     subtitle: 'Andar III',
@@ -57,6 +63,7 @@ const ECLIPSE_FLOORS: EclipseFloorSeed[] = [
     damage: 3,
     coins: 40,
   },
+
 
   {
     name: 'Trono do Eclipse',
@@ -71,41 +78,185 @@ const ECLIPSE_FLOORS: EclipseFloorSeed[] = [
     damage: 4,
     coins: 60,
   },
+
 ]
 
 
-export function getEclipseFloor(index: number): Floor {
+
+export function getEclipseFloor(index:number):Floor {
+
   const floor = ECLIPSE_FLOORS[index - 1]
 
+
   const data = floor ?? {
-    name: 'Abismo Eclipse',
-    subtitle: `Andar ${index}`,
+
+    name:'Abismo Eclipse',
+
+    subtitle:`Andar ${index}`,
+
     story:
       'A torre continua sem fim. Cada andar cria desafios mais difíceis.',
-    monsterName: 'Sombra Infinita',
-    monsterImage: ECLIPSE_MONSTER,
-    ops: ['+', '-', '×', '÷'] as Op[],
-    isBoss: index % 5 === 0,
-    hits: 20,
-    damage: 4,
-    coins: 80,
+
+    monsterName:'Sombra Infinita',
+
+    monsterImage:ECLIPSE_MONSTER,
+
+    ops:['+','-','×','÷'] as Op[],
+
+    isBoss:index % 5 === 0,
+
+    hits:25,
+
+    damage:4,
+
+    coins:80,
+
   }
 
+
   return {
+
     index,
-    name: data.name,
-    subtitle: data.subtitle,
-    story: data.story,
-    monsterName: data.monsterName,
-    monsterImage: data.monsterImage,
-    isBoss: Boolean(data.isBoss),
-    ops: data.ops,
-    hits: data.hits,
-    timePerQuestion: 8,
-    damage: data.damage,
-    coinsPerHit: data.coins,
+
+    name:data.name,
+
+    subtitle:data.subtitle,
+
+    story:data.story,
+
+    monsterName:data.monsterName,
+
+    monsterImage:data.monsterImage,
+
+    isBoss:Boolean(data.isBoss),
+
+    ops:data.ops,
+
+    hits:data.hits,
+
+    // Eclipse 25 segundos
+    timePerQuestion:25,
+
+    damage:data.damage,
+
+    coinsPerHit:data.coins,
+
   }
+
 }
 
 
-export const TOTAL_ECLIPSE_FLOORS = ECLIPSE_FLOORS.length
+
+
+export function generateEclipseQuestion(
+  floorIndex:number,
+  isBoss:boolean=false
+):Question {
+
+
+  const chance=Math.random()
+
+
+
+  // ============================
+  // BOSS ECLIPSE
+  // EQUAÇÃO
+  // ============================
+
+  if(isBoss){
+
+
+    const answer =
+      Math.floor(Math.random()*30)+5
+
+
+    const add =
+      Math.floor(Math.random()*20)+5
+
+
+    const total =
+      answer + add
+
+
+
+    return {
+
+      a:answer,
+
+      b:add,
+
+      op:'+',
+
+      answer,
+
+      key:`equation-${answer}-${add}`,
+
+      type:'equation',
+
+      text:`x + ${add} = ${total}`
+
+    }
+
+  }
+
+
+
+  // ============================
+  // EXPRESSÃO NUMÉRICA
+  // Eclipse normal
+  // ============================
+
+  if(chance < 0.7){
+
+
+    const a =
+      Math.floor(Math.random()*15)+2
+
+
+    const b =
+      Math.floor(Math.random()*10)+2
+
+
+    const c =
+      Math.floor(Math.random()*8)+2
+
+
+
+    return {
+
+      a,
+
+      b,
+
+      op:'×',
+
+      answer:a + b*c,
+
+      key:`expression-${a}-${b}-${c}`,
+
+      type:'expression',
+
+      text:`${a} + ${b} × ${c} = ?`
+
+    }
+
+  }
+
+
+
+  // ============================
+  // Conta normal Eclipse
+  // ============================
+
+
+  return generateQuestion(
+    floorIndex,
+    ['+','-','×','÷']
+  )
+
+}
+
+
+
+export const TOTAL_ECLIPSE_FLOORS =
+  ECLIPSE_FLOORS.length
