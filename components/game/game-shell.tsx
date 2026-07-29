@@ -29,7 +29,13 @@ export function GameShell() {
       {game.screen === 'menu' ? (
         <TitleScreen
           save={game.save}
-          onContinue={() => game.openFloor(game.save.unlockedFloor)}
+          onContinue={() =>
+            game.openFloor(
+              game.save.selectedTower === 'crypt'
+                ? game.save.cryptUnlockedFloor
+                : game.save.eclipseUnlockedFloor
+            )
+          }
           onMap={() => game.setScreen('map')}
           onShop={() => game.setScreen('shop')}
           onReset={game.resetSave}
