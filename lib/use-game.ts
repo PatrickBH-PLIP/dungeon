@@ -23,18 +23,22 @@ export type Screen = 'menu' | 'story' | 'battle' | 'result' | 'shop' | 'map'
 export type Phase = 'asking' | 'correct' | 'wrong' | 'won' | 'lost'
 
 export type SaveData = {
-  coins: number
-  upgrades: UpgradeLevels
   unlockedFloor: number
+  coins: number
+  selectedTower: 'crypt' | 'eclipse'
+  eclipseUnlocked: boolean
+  upgrades: UpgradeLevels
   deepestFloor: number
   totalCorrect: number
   totalWrong: number
 }
 
 const DEFAULT_SAVE: SaveData = {
-  coins: 0,
-  upgrades: { ...EMPTY_UPGRADES },
   unlockedFloor: 1,
+  coins: 0,
+  selectedTower: 'crypt',
+  eclipseUnlocked: false,
+  upgrades: { ...EMPTY_UPGRADES },
   deepestFloor: 0,
   totalCorrect: 0,
   totalWrong: 0,
@@ -271,9 +275,22 @@ export function useGame() {
       coins: s.coins + (won ? battle.coins : 0),
       totalCorrect: s.totalCorrect + battle.correct,
       totalWrong: s.totalWrong + battle.wrong,
-      unlockedFloor: won ? Math.max(s.unlockedFloor, battle.floor.index + 1) : s.unlockedFloor,
-      deepestFloor: won ? Math.max(s.deepestFloor, battle.floor.index) : s.deepestFloor,
-    }))
+
+      unlockedFloor: won
+        ? Math.max(s.unlockedFloor, battle.floor.index + 1)
+        : s.unlockedFloor,
+
+      deepestFloor: won
+        ? Math.max(s.deepestFloor, battle.floor.index)
+        : s.deepestFloor,
+
+      eclipseUnlocked:
+         won &&
+        battle.floor.index === 18 &&
+        s.selectedTower === 'crypt'
+        ? true
+        : s.eclipseUnlocked,
+}))
     const id = setTimeout(() => setScreen('result'), 900)
     return () => clearTimeout(id)
   }, [battle?.phase, battle])
