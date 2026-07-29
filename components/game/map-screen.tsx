@@ -43,9 +43,15 @@ export function MapScreen({ save, onSelect, onBack, onShop }: Props) {
             <ArrowLeft className="size-4" />
           </Button>
           <div>
-            <h1 className="font-serif text-2xl font-bold">Mapa da Cripta</h1>
+            <h1 className="font-serif text-2xl font-bold">
+              {save.selectedTower === 'crypt'
+                ? 'Mapa da Cripta'
+                : 'Mapa do Eclipse'}
+            </h1>
             <p className="text-sm text-muted-foreground">
-              Cada andar exige contas mais rápidas e mais difíceis.
+              {save.selectedTower === 'crypt'
+                ? 'Cada andar exige contas mais rápidas e mais difíceis.'
+                : 'As sombras do Eclipse desafiam até os maiores mestres da matemática.'}
             </p>
           </div>
         </div>
