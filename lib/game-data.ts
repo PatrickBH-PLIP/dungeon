@@ -283,7 +283,11 @@ export function getFloor(index: number): Floor {
     isBoss,
     ops: base.ops,
     hits: base.hitsOverride ?? (clamp(5 + Math.floor(depth / 2), 5, 12) + (isBoss ? 3 : 0)),
-    timePerQuestion: clamp(14 - Math.floor(depth / 2), 6, 14) - (isBoss ? 1 : 0),
+    timePerQuestion: clamp(
+      clamp(14 - Math.floor(depth / 2), 6, 14) - (isBoss ? 1 : 0),
+      5,
+      14
+    ),
     damage: base.damageOverride ?? (isBoss ? 2 : 1),
     coinsPerHit: base.coinsOverride ?? (4 + depth * 2 + (isEndless ? 6 : 0)),
   }
