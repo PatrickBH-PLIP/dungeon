@@ -347,11 +347,12 @@ setSave((s) => {
         : eclipseDeepest,
 
     eclipseUnlocked:
-      won &&
-      battle.floor.index === 18 &&
-      s.selectedTower === 'crypt'
-        ? true
-        : s.eclipseUnlocked,
+      s.eclipseUnlocked ||
+      (
+        won &&
+        s.selectedTower === 'crypt' &&
+        battle.floor.index === 18
+      ),
   }
 })
     const id = setTimeout(() => setScreen('result'), 900)
@@ -427,7 +428,17 @@ setSave((s) => {
         coins: s.coins + b.coins,
         totalCorrect: s.totalCorrect + b.correct,
         totalWrong: s.totalWrong + b.wrong,
-      }))
+
+        unlockedFloor:
+          s.selectedTower === 'crypt'
+            ? s.cryptUnlockedFloor
+            : s.eclipseUnlockedFloor,
+
+        deepestFloor:
+          s.selectedTower === 'crypt'
+            ? s.cryptDeepestFloor
+            : s.eclipseDeepestFloor,
+}))
     }
     setBattle(null)
     setScreen('menu')
