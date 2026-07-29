@@ -223,11 +223,8 @@ export function BattleScreen({
               display
             )}
           </div>
-         <TimerBar
-            timeLeft={battle.timeLeft} 
-            timeMax={battle.timeMax} 
-            frozen={battle.frozen}
-         />
+
+          <TimerBar timeLeft={battle.timeLeft} timeMax={battle.timeMax} frozen={battle.frozen} />
 
           {battle.hint ? (
             <p className="rounded-lg border border-primary/30 bg-primary/10 px-3 py-2 text-center text-xs text-primary">
