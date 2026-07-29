@@ -4,18 +4,27 @@ import { ArrowLeft, Crown, Lock, Skull, Store } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { CoinTag } from '@/components/game/hud'
 import { getFloor, TOTAL_FIXED_FLOORS } from '@/lib/game-data'
+import { getEclipseFloor, TOTAL_ECLIPSE_FLOORS } from '@/lib/game-data-eclipse'
 import type { SaveData } from '@/lib/use-game'
 
 type Props = {
   save: SaveData
-  onSelect: (floor: number) => void
+  onSelect: (index: number) => void
   onBack: () => void
   onShop: () => void
 }
 
 export function MapScreen({ save, onSelect, onBack, onShop }: Props) {
-  const totalShown = Math.max(TOTAL_FIXED_FLOORS, save.unlockedFloor + 1)
-  const floors = Array.from({ length: totalShown }, (_, i) => getFloor(i + 1))
+  const totalShown =
+    save.selectedTower === 'eclipse'
+      ? TOTAL_ECLIPSE_FLOORS
+      : Math.max(TOTAL_FIXED_FLOORS, save.unlockedFloor + 1)
+
+  const floors = Array.from({ length: totalShown }, (_, i) =>
+    save.selectedTower === 'eclipse'
+      ? getEclipseFloor(i + 1)
+      : getFloor(i + 1)
+  )
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-5 px-4 py-8">
