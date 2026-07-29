@@ -33,14 +33,8 @@ export function GameShell() {
           onMap={() => game.setScreen('map')}
           onShop={() => game.setScreen('shop')}
           onReset={game.resetSave}
-          onSelectTower={(tower) => {
-            game.setSave((s) => ({
-              ...s,
-              selectedTower: tower,
-            }))
-      }}
-  />
-        />
+          onSelectTower={game.selectTower}
+      />
       ) : null}
 
       {game.screen === 'map' ? (
