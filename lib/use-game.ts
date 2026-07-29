@@ -8,6 +8,8 @@ import {
   type Floor,
   type Question,
 } from '@/lib/game-data'
+
+import { getEclipseFloor } from '@/lib/game-data-eclipse'
 import {
   computeStats,
   EMPTY_UPGRADES,
@@ -123,45 +125,54 @@ export function useGame() {
   }, [])
 
   /* ---------- fluxo de telas ---------- */
-  const openFloor = useCallback((index: number) => {
-    setPendingFloor(index)
-    setScreen('story')
-  }, [])
-
   const startBattle = useCallback(
-    (index: number) => {
-      const floor = getFloor(index)
-      const timeMax = floor.timePerQuestion + stats.timeBonus
-      committedRef.current = false
-      setBattle({
-        floor,
-        monsterHpMax: floor.hits,
-        monsterHp: floor.hits,
-        lives: stats.maxLives,
-        maxLives: stats.maxLives,
-        question: generateQuestion(index, floor.ops),
-        timeMax,
-        timeLeft: timeMax,
-        input: '',
-        negative: false,
-        phase: 'asking',
-        combo: 0,
-        bestCombo: 0,
-        coins: 0,
-        correct: 0,
-        wrong: 0,
-        freezeLeft: stats.freezeUses,
-        oracleLeft: stats.oracleUses,
-        revivesLeft: stats.reviveUses,
-        hint: null,
-        frozen: false,
-        lastAnswer: null,
-        shakeAt: 0,
-      })
-      setScreen('battle')
-    },
-    [stats.freezeUses, stats.maxLives, stats.oracleUses, stats.reviveUses, stats.timeBonus],
-  )
+  (index: number) => {
+    const floor =
+      save.selectedTower === 'eclipse'
+        ? getEclipseFloor(index)
+        : getFloor(index)
+
+    const timeMax = floor.timePerQuestion + stats.timeBonus
+
+    committedRef.current = false
+
+    setBattle({
+      floor,
+      monsterHpMax: floor.hits,
+      monsterHp: floor.hits,
+      lives: stats.maxLives,
+      maxLives: stats.maxLives,
+      question: generateQuestion(index, floor.ops),
+      timeMax,
+      timeLeft: timeMax,
+      input: '',
+      negative: false,
+      phase: 'asking',
+      combo: 0,
+      bestCombo: 0,
+      coins: 0,
+      correct: 0,
+      wrong: 0,
+      freezeLeft: stats.freezeUses,
+      oracleLeft: stats.oracleUses,
+      revivesLeft: stats.reviveUses,
+      hint: null,
+      frozen: false,
+      lastAnswer: null,
+      shakeAt: 0,
+    })
+
+    setScreen('battle')
+  },
+  [
+    save.selectedTower,
+    stats.freezeUses,
+    stats.maxLives,
+    stats.oracleUses,
+    stats.reviveUses,
+    stats.timeBonus,
+  ],
+)
 
   /* ---------- cronômetro ---------- */
   useEffect(() => {
