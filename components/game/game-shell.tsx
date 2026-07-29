@@ -56,12 +56,13 @@ export function GameShell() {
       ) : null}
 
       {game.screen === 'story' ? (
-        <StoryScreen
+       <StoryScreen
+          save={game.save}
           floorIndex={game.pendingFloor}
           stats={game.stats}
           onStart={() => game.startBattle(game.pendingFloor)}
           onBack={() => game.setScreen('menu')}
-        />
+      />
       ) : null}
 
       {game.screen === 'battle' && battle ? (
@@ -82,11 +83,12 @@ export function GameShell() {
       {game.screen === 'result' && battle ? (
         <ResultScreen
           battle={battle}
+          selectedTower={game.save.selectedTower}
           onRetry={() => game.startBattle(battle.floor.index)}
           onNext={() => game.openFloor(battle.floor.index + 1)}
           onShop={() => game.setScreen('shop')}
           onMenu={() => game.setScreen('menu')}
-        />
+/>
       ) : null}
       </div>
     </>
