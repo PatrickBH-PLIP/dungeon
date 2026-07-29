@@ -381,7 +381,14 @@ export function useGame() {
     setScreen('menu')
   }, [])
 
-  const resetSave = useCallback(() => {
+  const selectTower = useCallback((tower: 'crypt' | 'eclipse') => {
+  setSave((s) => ({
+    ...s,
+    selectedTower: tower,
+  }))
+}, [])
+
+const resetSave = useCallback(() => {
     setSave({ ...DEFAULT_SAVE, upgrades: { ...EMPTY_UPGRADES } })
     setBattle(null)
     setScreen('menu')
@@ -391,6 +398,7 @@ export function useGame() {
     loaded,
     save,
     setSave,
+    selectTower,
     stats,
     screen,
     setScreen,
