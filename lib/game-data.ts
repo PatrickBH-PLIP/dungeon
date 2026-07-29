@@ -299,54 +299,109 @@ function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)]
 }
 
-export function generateQuestion(floorIndex: number, ops: Op[], avoidKey?: string): Question {
+export function generateQuestion(
+  floorIndex: number,
+  ops: Op[],
+  avoidKey?: string
+): Question {
+
   const d = floorIndex
   let q: Question | null = null
 
   for (let attempt = 0; attempt < 12; attempt++) {
+
     const op = pick(ops)
+
     let a = 0
     let b = 0
     let answer = 0
 
+
     if (op === '+') {
+
       const max = clamp(9 + d * 9, 9, 999)
+
       a = randInt(2, max)
       b = randInt(2, max)
+
       answer = a + b
+
+
     } else if (op === '-') {
+
       const max = clamp(9 + d * 9, 9, 999)
+
       a = randInt(2, max)
       b = randInt(2, max)
-      if (!allowsNegative(floorIndex) && b > a) [a, b] = [b, a]
+
+      if (!allowsNegative(floorIndex) && b > a) {
+        [a,b] = [b,a]
+      }
+
       answer = a - b
+
+
     } else if (op === '×') {
-      const aMax = clamp(3 + d, 4, 25)
-      const bMax = clamp(4 + Math.floor(d * 1.6), 5, 40)
-      a = randInt(2, aMax)
-      b = randInt(2, bMax)
-      answer = a * b
+
+      const aMax = clamp(3+d,4,25)
+      const bMax = clamp(4+Math.floor(d*1.6),5,40)
+
+      a = randInt(2,aMax)
+      b = randInt(2,bMax)
+
+      answer = a*b
+
+
     } else {
-      const divisor = randInt(2, clamp(2 + d, 3, 15))
-      const quotient = randInt(2, clamp(3 + d, 3, 20))
+
+      const divisor = randInt(2, clamp(2+d,3,15))
+      const quotient = randInt(2, clamp(3+d,3,20))
+
       a = divisor * quotient
       b = divisor
+
       answer = quotient
+
     }
 
+
     const key = `${a}${op}${b}`
-    if (key === avoidKey) continue
-    q = { a, b, op, answer, key }
+
+
+    if(key === avoidKey) continue
+
+
+    q = {
+
+      a,
+      b,
+      op,
+      answer,
+      key,
+
+      type:'normal',
+
+      text:`${a} ${op} ${b} = ?`
+
+    }
+
+
     break
   }
 
-  return q ?? { a: 1, b: 1, op: '+', answer: 2, key: '1+1' }
-}
 
-export function oracleHint(answer: number): string {
-  const digits = Math.abs(answer).toString().length
-  const parity = Math.abs(answer) % 2 === 0 ? 'par' : 'ímpar'
-  const sign = answer < 0 ? 'negativo' : 'positivo'
-  const rounded = Math.round(answer / 10) * 10
-  return `${digits} algarismo${digits > 1 ? 's' : ''} · número ${parity} e ${sign} · perto de ${rounded}`
+  return q ?? {
+
+    a:1,
+    b:1,
+    op:'+',
+    answer:2,
+    key:'1+1',
+
+    type:'normal',
+
+    text:'1 + 1 = ?'
+
+  }
+
 }
