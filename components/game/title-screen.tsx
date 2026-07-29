@@ -4,6 +4,7 @@ import { ChevronRight, Map, ScrollText, Store, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { CoinTag } from '@/components/game/hud'
 import { getFloor } from '@/lib/game-data'
+import { getEclipseFloor } from '@/lib/game-data-eclipse'
 import type { SaveData } from '@/lib/use-game'
 
 type Props = {
@@ -12,10 +13,21 @@ type Props = {
   onMap: () => void
   onShop: () => void
   onReset: () => void
+  onSelectTower: (tower: 'crypt' | 'eclipse') => void
 }
 
-export function TitleScreen({ save, onContinue, onMap, onShop, onReset }: Props) {
-  const next = getFloor(save.unlockedFloor)
+export function TitleScreen({
+  save,
+  onContinue,
+  onMap,
+  onShop,
+  onReset,
+  onSelectTower,
+}: Props) {
+  const next =
+    save.selectedTower === 'eclipse'
+      ? getEclipseFloor(save.unlockedFloor)
+      : getFloor(save.unlockedFloor)
   const total = save.totalCorrect + save.totalWrong
   const accuracy = total > 0 ? Math.round((save.totalCorrect / total) * 100) : 0
 
@@ -34,6 +46,37 @@ export function TitleScreen({ save, onContinue, onMap, onShop, onReset }: Props)
           por andar, resolve as contas que dão poder aos guardiões e refaça o selo antes que o
           Dragão Ancião chegue à superfície.
         </p>
+        <div className="flex w-full max-w-md flex-col gap-3">
+
+  <Button
+    variant={save.selectedTower === 'crypt' ? 'default' : 'outline'}
+    onClick={() => onSelectTower('crypt')}
+    className="h-12 justify-between font-serif"
+  >
+    <span>🏰 Cripta dos Números</span>
+    <span className="text-xs">
+      Liberada
+    </span>
+  </Button>
+
+
+  <Button
+    variant={save.selectedTower === 'eclipse' ? 'default' : 'outline'}
+    disabled={!save.eclipseUnlocked}
+    onClick={() => onSelectTower('eclipse')}
+    className="h-12 justify-between font-serif"
+  >
+    <span>🌑 Torre do Eclipse Eterno</span>
+
+    <span className="text-xs">
+      {save.eclipseUnlocked
+        ? 'Liberada'
+        : '🔒 Derrote a Mãe das Trevas'}
+    </span>
+
+  </Button>
+
+</div>
       </div>
 
       <div className="flex w-full max-w-md flex-col gap-3">
@@ -43,7 +86,11 @@ export function TitleScreen({ save, onContinue, onMap, onShop, onReset }: Props)
         >
           <span className="flex items-center gap-3">
             <ScrollText className="size-5" />
-            {save.unlockedFloor > 1 ? 'Continuar descida' : 'Entrar na Cripta'}
+            {save.selectedTower === 'eclipse'
+              ? 'Entrar no Eclipse'
+              : save.unlockedFloor > 1
+                ? 'Continuar descida'
+                : 'Entrar na Cripta'}
           </span>
           <span className="flex items-center gap-1 text-sm font-medium opacity-80">
             {next.subtitle}
