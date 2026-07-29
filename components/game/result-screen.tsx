@@ -3,21 +3,33 @@
 import { ChevronRight, Home, RotateCcw, Store, Trophy, Skull } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { getFloor } from '@/lib/game-data'
+import { getEclipseFloor } from '@/lib/game-data-eclipse'
 import type { Battle } from '@/lib/use-game'
 
 type Props = {
   battle: Battle
+  selectedTower: 'crypt' | 'eclipse'
   onRetry: () => void
   onNext: () => void
   onShop: () => void
   onMenu: () => void
 }
 
-export function ResultScreen({ battle, onRetry, onNext, onShop, onMenu }: Props) {
+export function ResultScreen({
+  battle,
+  selectedTower,
+  onRetry,
+  onNext,
+  onShop,
+  onMenu,
+}: Props) {
   const won = battle.phase === 'won'
   const total = battle.correct + battle.wrong
   const accuracy = total > 0 ? Math.round((battle.correct / total) * 100) : 0
-  const nextFloor = getFloor(battle.floor.index + 1)
+  const nextFloor =
+    selectedTower === 'eclipse'
+      ? getEclipseFloor(battle.floor.index + 1)
+      : getFloor(battle.floor.index + 1)
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-2xl flex-col items-center justify-center gap-6 px-4 py-12 text-center">
