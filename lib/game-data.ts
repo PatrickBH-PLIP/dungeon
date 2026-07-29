@@ -6,6 +6,9 @@ export type Question = {
   op: Op
   answer: number
   key: string
+
+  type?: 'normal' | 'expression' | 'equation'
+  text?: string
 }
 
 export type Floor = {
