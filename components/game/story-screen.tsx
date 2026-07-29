@@ -3,17 +3,23 @@
 import { ArrowLeft, Heart, Skull, Swords, Timer } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { getFloor } from '@/lib/game-data'
+import { getEclipseFloor } from '@/lib/game-data-eclipse'
 import type { PlayerStats } from '@/lib/upgrades'
+import type { SaveData } from '@/lib/use-game'
 
 type Props = {
+  save: SaveData
   floorIndex: number
   stats: PlayerStats
   onStart: () => void
   onBack: () => void
 }
 
-export function StoryScreen({ floorIndex, stats, onStart, onBack }: Props) {
-  const floor = getFloor(floorIndex)
+export function StoryScreen({ save, floorIndex, stats, onStart, onBack }: Props) {
+  const floor =
+    save.selectedTower === 'eclipse'
+      ? getEclipseFloor(floorIndex)
+      : getFloor(floorIndex)
   const time = (floor.timePerQuestion + stats.timeBonus).toFixed(1)
 
   return (
