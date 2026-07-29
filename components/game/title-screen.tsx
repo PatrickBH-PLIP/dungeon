@@ -41,7 +41,7 @@ export function TitleScreen({
           Cripta dos Números
         </h1>
         <p className="max-w-xl text-pretty leading-relaxed text-muted-foreground">
-          Há mil anos, o Mestre dos Cálculos selou seus monstros sob o castelo usando doze runas de
+          Há mil anos, o Mestre dos Cálculos selou seus monstros sob o castelo usando runas de
           aritmética. As runas se apagaram. Você é o último aprendiz da Ordem da Régua — desça andar
           por andar, resolve as contas que dão poder aos guardiões e refaça o selo antes que o
           Dragão Ancião chegue à superfície.
