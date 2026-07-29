@@ -393,7 +393,14 @@ const resetSave = useCallback(() => {
     setBattle(null)
     setScreen('menu')
   }, [])
-
+const selectTower = useCallback((tower: 'crypt' | 'eclipse') => {
+    setSave((s) => ({
+      ...s,
+      selectedTower: tower,
+      unlockedFloor: 1,
+    }))
+  }, [])
+  
   return {
     loaded,
     save,
